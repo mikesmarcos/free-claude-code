@@ -48,10 +48,10 @@
 
 ## 6. .env.example
 
-- [ ] 6.1 Add the `Command Code AI Config` block (`COMMAND_CODE_API_KEY`, `COMMAND_CODE_BASE_URL`, `COMMAND_CODE_PROXY`) with the dual-transport comment.
-- [ ] 6.2 Update the `Valid providers` comment for `MODEL` to include `command_code_ai` (between `zai` and `lmstudio`).
-- [ ] 6.3 Add `FCC_SMOKE_MODEL_COMMAND_CODE_AI=` to the smoke-model block.
-- [ ] 6.4 Commit: `docs(env): document Command Code AI keys and smoke model override`.
+- [x] 6.1 Add the `Command Code AI Config` block (`COMMAND_CODE_API_KEY`, `COMMAND_CODE_BASE_URL`, `COMMAND_CODE_PROXY`) with the dual-transport comment.
+- [x] 6.2 Update the `Valid providers` comment for `MODEL` to include `command_code_ai` (between `zai` and `lmstudio`).
+- [x] 6.3 Add `FCC_SMOKE_MODEL_COMMAND_CODE_AI=` to the smoke-model block.
+- [x] 6.4 Commit: `docs(env): document Command Code AI keys and smoke model override`.
 
 ## 7. Smoke harness
 
