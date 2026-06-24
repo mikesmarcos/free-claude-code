@@ -31,10 +31,12 @@ def _clear_process_config(monkeypatch) -> None:
         "FCC_ENV_FILE",
         "HOST",
         "PORT",
+        "ALLOW_ADMIN_FROM",
         "LOG_FILE",
         "ZAI_BASE_URL",
         "CLAUDE_WORKSPACE",
         "CLAUDE_CLI_BIN",
+        "GEMINI_API_KEY",
     ):
         monkeypatch.delenv(key, raising=False)
 
