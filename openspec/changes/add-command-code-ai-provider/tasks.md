@@ -55,10 +55,10 @@
 
 ## 7. Smoke harness
 
-- [ ] 7.1 In `smoke/lib/config.py`, add `"command_code_ai": "command_code_ai/claude-sonnet-4-6"` to `PROVIDER_SMOKE_DEFAULT_MODELS`.
-- [ ] 7.2 Refactor `has_provider_configuration` to the catalog-driven lookup: `descriptor = PROVIDER_CATALOG.get(provider)`; if `descriptor.credential_attr`, return `bool(getattr(self.settings, descriptor.credential_attr, "").strip())`; elif `descriptor.base_url_attr`, return `bool(getattr(self.settings, descriptor.base_url_attr, "").strip())`; else False. Remove the per-provider `if/elif` chain.
-- [ ] 7.3 Confirm `FCC_SMOKE_MODEL_COMMAND_CODE_AI` is honored by the existing override resolution (`os.getenv(f"FCC_SMOKE_MODEL_{provider.upper()}")`).
-- [ ] 7.4 Commit: `refactor(smoke): catalog-driven has_provider_configuration + command_code_ai default model`.
+- [x] 7.1 In `smoke/lib/config.py`, add `"command_code_ai": "command_code_ai/claude-sonnet-4-6"` to `PROVIDER_SMOKE_DEFAULT_MODELS`.
+- [x] 7.2 Refactor `has_provider_configuration` to the catalog-driven lookup: `descriptor = PROVIDER_CATALOG.get(provider)`; if `descriptor.credential_attr`, return `bool(getattr(self.settings, descriptor.credential_attr, "").strip())`; elif `descriptor.base_url_attr`, return `bool(getattr(self.settings, descriptor.base_url_attr, "").strip())`; else False. Remove the per-provider `if/elif` chain.
+- [x] 7.3 Confirm `FCC_SMOKE_MODEL_COMMAND_CODE_AI` is honored by the existing override resolution (`os.getenv(f"FCC_SMOKE_MODEL_{provider.upper()}")`).
+- [x] 7.4 Commit: `refactor(smoke): catalog-driven has_provider_configuration + command_code_ai default model`.
 
 ## 8. Install scripts — local source flag
 
