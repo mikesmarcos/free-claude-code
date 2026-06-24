@@ -33,11 +33,11 @@
 
 ## 4. Settings fields
 
-- [ ] 4.1 In `config/settings.py`, add `from .provider_catalog import COMMAND_CODE_DEFAULT_BASE` to the catalog imports.
-- [ ] 4.2 Add `command_code_api_key` (`validation_alias="COMMAND_CODE_API_KEY"`) and `command_code_base_url` (`validation_alias="COMMAND_CODE_BASE_URL"`, `default=COMMAND_CODE_DEFAULT_BASE`) in the provider config block (after the Z.ai block, before Fireworks).
-- [ ] 4.3 Add `command_code_proxy` (`validation_alias="COMMAND_CODE_PROXY"`) in the proxies block.
-- [ ] 4.4 Run `uv run ty check config/settings.py`.
-- [ ] 4.5 Commit: `feat(settings): add COMMAND_CODE_API_KEY / PROXY / BASE_URL fields`.
+- [x] 4.1 In `config/settings.py`, add `from .provider_catalog import COMMAND_CODE_DEFAULT_BASE` to the catalog imports.
+- [x] 4.2 Add `command_code_api_key` (`validation_alias="COMMAND_CODE_API_KEY"`) and `command_code_base_url` (`validation_alias="COMMAND_CODE_BASE_URL"`, `default=COMMAND_CODE_DEFAULT_BASE`) in the provider config block (after the Z.ai block, before Fireworks).
+- [x] 4.3 Add `command_code_proxy` (`validation_alias="COMMAND_CODE_PROXY"`) in the proxies block.
+- [x] 4.4 Run `uv run ty check config/settings.py`.
+- [x] 4.5 Commit: `feat(settings): add COMMAND_CODE_API_KEY / PROXY / BASE_URL fields`.
 
 ## 5. Admin config fields
 

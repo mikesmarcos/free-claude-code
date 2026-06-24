@@ -15,6 +15,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from .constants import HTTP_CONNECT_TIMEOUT_DEFAULT
 from .nim import NimSettings
 from .paths import default_claude_workspace_path, managed_env_path
+from .provider_catalog import COMMAND_CODE_DEFAULT_BASE
 from .provider_ids import SUPPORTED_PROVIDER_IDS
 
 
@@ -103,6 +104,18 @@ class Settings(BaseSettings):
     # ==================== Z.ai Config ====================
     zai_api_key: str = Field(default="", validation_alias="ZAI_API_KEY")
 
+    # ==================== Command Code AI Config ====================
+    # Single key for both Anthropic Messages (/v1/messages) and OpenAI Chat
+    # Completions (/v1/chat/completions) endpoints; routing is by model family.
+    # See https://commandcode.ai/docs/provider
+    command_code_api_key: str = Field(
+        default="", validation_alias="COMMAND_CODE_API_KEY"
+    )
+    command_code_base_url: str = Field(
+        default=COMMAND_CODE_DEFAULT_BASE,
+        validation_alias="COMMAND_CODE_BASE_URL",
+    )
+
     # ==================== Fireworks AI Config ====================
     fireworks_api_key: str = Field(default="", validation_alias="FIREWORKS_API_KEY")
 
@@ -171,6 +184,7 @@ class Settings(BaseSettings):
     opencode_proxy: str = Field(default="", validation_alias="OPENCODE_PROXY")
     opencode_go_proxy: str = Field(default="", validation_alias="OPENCODE_GO_PROXY")
     zai_proxy: str = Field(default="", validation_alias="ZAI_PROXY")
+    command_code_proxy: str = Field(default="", validation_alias="COMMAND_CODE_PROXY")
     fireworks_proxy: str = Field(default="", validation_alias="FIREWORKS_PROXY")
     gemini_proxy: str = Field(default="", validation_alias="GEMINI_PROXY")
     groq_proxy: str = Field(default="", validation_alias="GROQ_PROXY")
