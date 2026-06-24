@@ -18,11 +18,11 @@
 
 ## 2. Provider package
 
-- [ ] 2.1 Port `providers/command_code_ai/__init__.py` from the migration (exports `CommandCodeAIProvider`).
-- [ ] 2.2 Port `providers/command_code_ai/request.py` (Anthropic + OpenAI request builders reusing `core/anthropic/build_base_request_body` and the existing OpenAI converter).
-- [ ] 2.3 Port `providers/command_code_ai/client.py` (`CommandCodeAIProvider` selecting the sub-transport at runtime from the request `model`; `claude-` prefix → `AnthropicMessagesTransport`, else → `OpenAIChatTransport`; both from the same `ProviderConfig`; `Authorization: Bearer` on all requests, `x-api-key` on the Anthropic path; `GET /v1/models` listing).
-- [ ] 2.4 Run `uv run ty check providers/command_code_ai` and `uv run ruff check providers/command_code_ai` to confirm the port is clean.
-- [ ] 2.5 Commit: `feat(providers): add command_code_ai dual-transport package`.
+- [x] 2.1 Port `providers/command_code_ai/__init__.py` from the migration (exports `CommandCodeAIProvider`).
+- [x] 2.2 Port `providers/command_code_ai/request.py` (Anthropic + OpenAI request builders reusing `core/anthropic/build_base_request_body` and the existing OpenAI converter).
+- [x] 2.3 Port `providers/command_code_ai/client.py` (`CommandCodeAIProvider` selecting the sub-transport at runtime from the request `model`; `claude-` prefix → `AnthropicMessagesTransport`, else → `OpenAIChatTransport`; both from the same `ProviderConfig`; `Authorization: Bearer` on all requests, `x-api-key` on the Anthropic path; `GET /v1/models` listing).
+- [x] 2.4 Run `uv run ty check providers/command_code_ai` and `uv run ruff check providers/command_code_ai` to confirm the port is clean.
+- [x] 2.5 Commit: `feat(providers): add command_code_ai dual-transport package`.
 
 ## 3. Registry and defaults re-export
 
