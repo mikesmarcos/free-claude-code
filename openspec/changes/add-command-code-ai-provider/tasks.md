@@ -26,10 +26,10 @@
 
 ## 3. Registry and defaults re-export
 
-- [ ] 3.1 In `providers/registry.py`, add `_create_command_code_ai(config, _settings)` (lazy `from providers.command_code_ai import CommandCodeAIProvider`) and register it in `PROVIDER_FACTORIES["command_code_ai"]`.
-- [ ] 3.2 In `providers/defaults.py`, add `COMMAND_CODE_DEFAULT_BASE` to the import and `__all__`.
-- [ ] 3.3 Verify the invariant `set(PROVIDER_CATALOG) == set(PROVIDER_FACTORIES) == set(SUPPORTED_PROVIDER_IDS)` holds (boot assertion / contract test).
-- [ ] 3.4 Commit: `feat(providers): wire command_code_ai into registry and defaults`.
+- [x] 3.1 In `providers/registry.py`, add `_create_command_code_ai(config, _settings)` (lazy `from providers.command_code_ai import CommandCodeAIProvider`) and register it in `PROVIDER_FACTORIES["command_code_ai"]`.
+- [x] 3.2 In `providers/defaults.py`, add `COMMAND_CODE_DEFAULT_BASE` to the import and `__all__`.
+- [x] 3.3 Verify the invariant `set(PROVIDER_CATALOG) == set(PROVIDER_FACTORIES) == set(SUPPORTED_PROVIDER_IDS)` holds (boot assertion / contract test).
+- [x] 3.4 Commit: `feat(providers): wire command_code_ai into registry and defaults`.
 
 ## 4. Settings fields
 

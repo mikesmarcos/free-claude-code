@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import AsyncIterator
 from typing import Any
 
-from config.provider_catalog import COMMAND_CODE_DEFAULT_BASE
+from providers.defaults import COMMAND_CODE_DEFAULT_BASE
 from providers.base import BaseProvider, ProviderConfig
 from providers.model_listing import ProviderModelInfo
 from providers.transports.anthropic_messages import AnthropicMessagesTransport
