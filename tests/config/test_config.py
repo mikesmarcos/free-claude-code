@@ -90,6 +90,32 @@ class TestSettings:
 
         assert not hasattr(settings, "zai_base_url")
 
+    def test_command_code_base_url_env_is_honored(self, monkeypatch):
+        """Command Code AI base URL is overridable via env (registered field)."""
+        from config.settings import Settings
+
+        monkeypatch.setenv(
+            "COMMAND_CODE_BASE_URL", "https://custom.commandcode.invalid/v1"
+        )
+        monkeypatch.setitem(Settings.model_config, "env_file", ())
+
+        settings = Settings()
+
+        assert settings.command_code_base_url == "https://custom.commandcode.invalid/v1"
+
+    def test_command_code_default_base_url_is_applied(self, monkeypatch):
+        """Falls back to the catalog default when the env override is unset."""
+        from config.settings import Settings
+
+        monkeypatch.delenv("COMMAND_CODE_BASE_URL", raising=False)
+        monkeypatch.setitem(Settings.model_config, "env_file", ())
+
+        settings = Settings()
+
+        assert (
+            settings.command_code_base_url == "https://api.commandcode.ai/provider/v1"
+        )
+
     def test_blank_claude_workspace_uses_fcc_home(self, monkeypatch, tmp_path):
         """An explicit blank env value does not affect the fixed workspace path."""
         from config.settings import Settings

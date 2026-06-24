@@ -35,6 +35,7 @@ def _settings(
     wafer_api_key: str = "",
     opencode_api_key: str = "",
     zai_api_key: str = "",
+    command_code_api_key: str = "",
 ) -> Settings:
     return Settings.model_construct(
         model=model,
@@ -47,6 +48,7 @@ def _settings(
         wafer_api_key=wafer_api_key,
         opencode_api_key=opencode_api_key,
         zai_api_key=zai_api_key,
+        command_code_api_key=command_code_api_key,
         log_api_error_tracebacks=False,
     )
 

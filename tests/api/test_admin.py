@@ -37,6 +37,9 @@ def _clear_process_config(monkeypatch) -> None:
         "CLAUDE_WORKSPACE",
         "CLAUDE_CLI_BIN",
         "GEMINI_API_KEY",
+        "COMMAND_CODE_API_KEY",
+        "COMMAND_CODE_BASE_URL",
+        "COMMAND_CODE_PROXY",
     ):
         monkeypatch.delenv(key, raising=False)
 
@@ -351,6 +354,65 @@ def test_admin_apply_omits_stale_zai_base_url(monkeypatch, tmp_path):
     text = env_file.read_text("utf-8")
     assert "ZAI_API_KEY=zai-secret" in text
     assert "ZAI_BASE_URL" not in text
+
+
+def test_admin_apply_persists_command_code_base_url(monkeypatch, tmp_path):
+    _set_home(monkeypatch, tmp_path)
+    _clear_process_config(monkeypatch)
+    env_file = tmp_path / ".fcc" / ".env"
+    env_file.parent.mkdir(parents=True)
+    env_file.write_text(
+        "\n".join(
+            [
+                "MODEL=command_code_ai/claude-sonnet-4-6",
+                "COMMAND_CODE_API_KEY=cc-secret",
+                "COMMAND_CODE_BASE_URL=https://custom.commandcode.invalid/v1",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    app = create_app(lifespan_enabled=False)
+
+    response = _local_client(app).post(
+        "/admin/api/config/apply",
+        json={"values": {"MODEL": "command_code_ai/claude-sonnet-4-6"}},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["applied"] is True
+    text = env_file.read_text("utf-8")
+    assert "COMMAND_CODE_API_KEY=cc-secret" in text
+    assert "COMMAND_CODE_BASE_URL=https://custom.commandcode.invalid/v1" in text
+
+
+def test_admin_apply_preserves_command_code_proxy(monkeypatch, tmp_path):
+    _set_home(monkeypatch, tmp_path)
+    _clear_process_config(monkeypatch)
+    env_file = tmp_path / ".fcc" / ".env"
+    env_file.parent.mkdir(parents=True)
+    env_file.write_text(
+        "\n".join(
+            [
+                "MODEL=command_code_ai/claude-sonnet-4-6",
+                "COMMAND_CODE_API_KEY=cc-secret",
+                "COMMAND_CODE_PROXY=http://proxy.invalid:8080",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    app = create_app(lifespan_enabled=False)
+
+    response = _local_client(app).post(
+        "/admin/api/config/apply",
+        json={"values": {"MODEL": "command_code_ai/claude-sonnet-4-6"}},
+    )
+
+    assert response.status_code == 200
+    text = env_file.read_text("utf-8")
+    assert "COMMAND_CODE_PROXY=http://proxy.invalid:8080" in text
 
 
 def test_admin_apply_omits_stale_fixed_claude_runtime_settings(monkeypatch, tmp_path):

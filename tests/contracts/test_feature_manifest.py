@@ -7,6 +7,7 @@ from messaging.platforms.factory import create_messaging_components
 from providers.base import BaseProvider
 from providers.cerebras import CerebrasProvider
 from providers.codestral import CodestralProvider
+from providers.command_code_ai import CommandCodeAIProvider
 from providers.deepseek import DeepSeekProvider
 from providers.fireworks import FireworksProvider
 from providers.gemini import GeminiProvider
@@ -91,6 +92,7 @@ def test_provider_and_platform_registries_include_advertised_builtins() -> None:
         "opencode": OpenCodeProvider,
         "opencode_go": OpenCodeProvider,
         "zai": ZaiProvider,
+        "command_code_ai": CommandCodeAIProvider,
         "gemini": GeminiProvider,
         "groq": GroqProvider,
         "cerebras": CerebrasProvider,

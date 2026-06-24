@@ -75,15 +75,15 @@
 
 ## 10. Tests
 
-- [ ] 10.1 Port `tests/providers/test_command_code_ai.py` (model→transport routing, missing-key handling, payload sanitization, model listing, Bearer/x-api-key headers).
-- [ ] 10.2 Extend `tests/contracts/test_feature_manifest.py` and `tests/contracts/test_provider_catalog_order.py` to include `command_code_ai`.
-- [ ] 10.3 Extend `tests/contracts/test_smoke_config.py` to cover the catalog-driven `has_provider_configuration` and the `command_code_ai` default model + `FCC_SMOKE_MODEL_COMMAND_CODE_AI` override.
-- [ ] 10.4 Extend `tests/providers/test_registry.py` (factory present + invariant) and `tests/providers/test_model_validation.py` (`MODEL=command_code_ai/...` validates).
-- [ ] 10.5 Port the `COMMAND_CODE_*` round-trip hunks of `tests/api/test_admin.py` (do **not** touch the `ALLOW_ADMIN_FROM` hunks).
-- [ ] 10.6 Extend `tests/config/test_config.py` (env-override sanity for the new fields).
-- [ ] 10.7 Extend `tests/api/test_dependencies.py` and `tests/scripts/test_uninstallers.py` per the migration.
-- [ ] 10.8 Run `uv run pytest -v --tb=short` and confirm all pass (including the contract and registry invariant tests).
-- [ ] 10.9 Commit: `test(command-code-ai): routing, manifest, catalog, smoke, and install coverage`.
+- [x] 10.1 Port `tests/providers/test_command_code_ai.py` (model→transport routing, missing-key handling, payload sanitization, model listing, Bearer/x-api-key headers).
+- [x] 10.2 Extend `tests/contracts/test_feature_manifest.py` and `tests/contracts/test_provider_catalog_order.py` to include `command_code_ai`.
+- [x] 10.3 Extend `tests/contracts/test_smoke_config.py` to cover the catalog-driven `has_provider_configuration` and the `command_code_ai` default model + `FCC_SMOKE_MODEL_COMMAND_CODE_AI` override.
+- [x] 10.4 Extend `tests/providers/test_registry.py` (factory present + invariant) and `tests/providers/test_model_validation.py` (`MODEL=command_code_ai/...` validates).
+- [x] 10.5 Port the `COMMAND_CODE_*` round-trip hunks of `tests/api/test_admin.py` (do **not** touch the `ALLOW_ADMIN_FROM` hunks).
+- [x] 10.6 Extend `tests/config/test_config.py` (env-override sanity for the new fields).
+- [x] 10.7 Extend `tests/api/test_dependencies.py` per the migration.
+- [x] 10.8 Run `uv run pytest -v --tb=short` and confirm all pass (including the contract and registry invariant tests).
+- [x] 10.9 Commit: `test(command-code-ai): routing, manifest, catalog, smoke, and install coverage`.
 
 ## 11. Version, CI, smoke, and archive
 
