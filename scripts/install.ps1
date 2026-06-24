@@ -3,6 +3,7 @@ param(
     [switch] $VoiceLocal,
     [switch] $VoiceAll,
     [string] $TorchBackend = "",
+    [string] $From = "",
     [switch] $DryRun,
     [switch] $Help,
     [Parameter(ValueFromRemainingArguments = $true)]
@@ -28,6 +29,7 @@ Options:
   -VoiceLocal            Install local Whisper voice transcription support.
   -VoiceAll              Install all voice transcription backends.
   -TorchBackend VALUE    Use a uv PyTorch backend, such as cu130. Requires local voice.
+  -From PATH             Install from a local repo path instead of GitHub.
   -DryRun                Print commands without running them.
   -Help                  Show this help text.
 "@
@@ -354,19 +356,21 @@ function Get-PackageSpec {
         throw "-TorchBackend requires -VoiceLocal or -VoiceAll."
     }
 
+    $source = if ([string]::IsNullOrWhiteSpace($From)) { $RepoGitUrl } else { $From }
+
     if ($includeNim -and $includeLocal) {
-        return "free-claude-code[voice,voice_local] @ $RepoGitUrl"
+        return "free-claude-code[voice,voice_local] @ $source"
     }
 
     if ($includeNim) {
-        return "free-claude-code[voice] @ $RepoGitUrl"
+        return "free-claude-code[voice] @ $source"
     }
 
     if ($includeLocal) {
-        return "free-claude-code[voice_local] @ $RepoGitUrl"
+        return "free-claude-code[voice_local] @ $source"
     }
 
-    return $RepoGitUrl
+    return $source
 }
 
 function Install-FreeClaudeCode {

@@ -42,34 +42,73 @@ class AdminConfigPayload(BaseModel):
     values: dict[str, Any] = Field(default_factory=dict)
 
 
-def _is_loopback_host(host: str | None) -> bool:
+def _host_in_networks(
+    host: str | None,
+    networks: frozenset[ipaddress.IPv4Network | ipaddress.IPv6Network],
+) -> bool:
+    """Return whether *host* is covered by any network in *networks*.
+
+    A wildcard allow-list (``ALLOW_ADMIN_FROM=0.0.0.0`` / ``*``) accepts any
+    source — IP or hostname — because the operator has explicitly opened the
+    admin UI to every network. ``ALLOW_ADMIN_FROM`` governs *who may reach
+    /admin*; which address the server listens on is ``HOST``. The Origin
+    header reflects how the *client* resolved the server (which may be a
+    Tailscale MagicDNS hostname, not a literal IP), so a wildcard must accept
+    it rather than reject it for being unparseable as an IP.
+
+    For non-wildcard allow-lists, handles IPv4-mapped IPv6 addresses and
+    resolves the conventional ``localhost`` hostname to its loopback
+    addresses (``127.0.0.1`` and ``::1``) so that Origins like
+    ``http://localhost:8082`` match a loopback allow-list.
+    """
     if host is None:
         return False
-    normalized = host.strip().strip("[]").lower()
-    if normalized == "localhost":
+    # A wildcard allow-list (ALLOW_ADMIN_FROM=0.0.0.0 / `*`) opens the admin UI
+    # to every source network. Per the documented contract, ALLOW_ADMIN_FROM
+    # governs *who may reach /admin*, not *which address the server listens on*
+    # (that is HOST). So with a wildcard, any caller passes — whether the peer
+    # is an IP and the Origin the browser sent is a hostname (e.g. a Tailscale
+    # MagicDNS name) that cannot be parsed as a literal IP.
+    if any(net.prefixlen == 0 for net in networks):
         return True
+    host = host.strip().strip("[]")
+    if host.lower() == "localhost":
+        return any(
+            ipaddress.ip_address(addr) in net
+            for addr in ("127.0.0.1", "::1")
+            for net in networks
+        )
     try:
-        return ipaddress.ip_address(normalized).is_loopback
+        addr = ipaddress.ip_address(host)
     except ValueError:
         return False
-
-
-def _origin_is_local(origin: str | None) -> bool:
-    if not origin:
+    if any(addr in net for net in networks):
         return True
-    parsed = urlsplit(origin)
-    return _is_loopback_host(parsed.hostname)
+    if isinstance(addr, ipaddress.IPv4Address):
+        mapped = ipaddress.IPv6Address(f"::ffff:{addr}")
+        if any(mapped in net for net in networks):
+            return True
+    return bool(
+        isinstance(addr, ipaddress.IPv6Address)
+        and addr.ipv4_mapped
+        and any(addr.ipv4_mapped in net for net in networks)
+    )
+
+
+def is_admin_request_allowed(request: Request, settings: Settings) -> bool:
+    """Return whether the immediate peer and Origin header are in the admin allow-list."""
+    networks = settings.allow_admin_from_networks()
+    peer = request.client.host if request.client else None
+    if not _host_in_networks(peer, networks):
+        return False
+    origin = request.headers.get("origin")
+    return not origin or _host_in_networks(urlsplit(origin).hostname, networks)
 
 
 def require_loopback_admin(request: Request) -> None:
-    """Allow admin access only from the local machine."""
-
-    client_host = request.client.host if request.client else None
-    if not _is_loopback_host(client_host):
-        raise HTTPException(status_code=403, detail="Admin UI is local-only")
-
-    origin = request.headers.get("origin")
-    if not _origin_is_local(origin):
+    """Allow admin access only from source addresses in the configured allow-list."""
+    settings = get_cached_settings()
+    if not is_admin_request_allowed(request, settings):
         raise HTTPException(status_code=403, detail="Admin UI is local-only")
 
 
@@ -154,6 +193,10 @@ async def admin_status(request: Request):
         "pending_fields": getattr(request.app.state, "admin_pending_fields", []),
         "provider_status": provider_config_status(),
         "cached_models": cached_models,
+        "allow_admin_from": settings.allow_admin_from,
+        "allow_admin_from_networks": [
+            str(net) for net in sorted(settings.allow_admin_from_networks(), key=str)
+        ],
     }
 
 

@@ -11,6 +11,7 @@ voice_nim=0
 voice_local=0
 voice_all=0
 torch_backend=""
+from_path=""
 
 show_usage() {
     cat <<'USAGE'
@@ -23,6 +24,7 @@ Options:
   --voice-local            Install local Whisper voice transcription support.
   --voice-all              Install all voice transcription backends.
   --torch-backend VALUE    Use a uv PyTorch backend, such as cu130. Requires local voice.
+  --from PATH              Install from a local repo path instead of GitHub.
   --dry-run                Print commands without running them.
   --help                   Show this help text.
 USAGE
@@ -260,6 +262,16 @@ parse_args() {
                 torch_backend="${1#*=}"
                 [ -n "$torch_backend" ] || fail "--torch-backend requires a non-empty value."
                 ;;
+            --from)
+                shift
+                [ "$#" -gt 0 ] || fail "--from requires a value."
+                from_path="$1"
+                [ -n "$from_path" ] || fail "--from requires a non-empty value."
+                ;;
+            --from=*)
+                from_path="${1#*=}"
+                [ -n "$from_path" ] || fail "--from requires a non-empty value."
+                ;;
             --dry-run)
                 dry_run=1
                 ;;
@@ -301,14 +313,20 @@ package_spec() {
         fail "--torch-backend requires --voice-local or --voice-all."
     fi
 
-    if [ "$include_nim" -eq 1 ] && [ "$include_local" -eq 1 ]; then
-        printf 'free-claude-code[voice,voice_local] @ %s' "$REPO_GIT_URL"
-    elif [ "$include_nim" -eq 1 ]; then
-        printf 'free-claude-code[voice] @ %s' "$REPO_GIT_URL"
-    elif [ "$include_local" -eq 1 ]; then
-        printf 'free-claude-code[voice_local] @ %s' "$REPO_GIT_URL"
+    if [ -n "$from_path" ]; then
+        source_spec="$from_path"
     else
-        printf '%s' "$REPO_GIT_URL"
+        source_spec="$REPO_GIT_URL"
+    fi
+
+    if [ "$include_nim" -eq 1 ] && [ "$include_local" -eq 1 ]; then
+        printf 'free-claude-code[voice,voice_local] @ %s' "$source_spec"
+    elif [ "$include_nim" -eq 1 ]; then
+        printf 'free-claude-code[voice] @ %s' "$source_spec"
+    elif [ "$include_local" -eq 1 ]; then
+        printf 'free-claude-code[voice_local] @ %s' "$source_spec"
+    else
+        printf '%s' "$source_spec"
     fi
 }
 

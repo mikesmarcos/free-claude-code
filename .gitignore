@@ -1,5 +1,31 @@
+# Provider source lives at smoke/lib/ — force-include despite the legacy lib/ rule.
+lib/
+!smoke/lib/
 __pycache__
-.claude
+# Harness Claude Code — ignore any file under .claude/ by default, then carve
+# out the project-owned sub-trees (skills, commands) and keep settings.local.json
+# as the only committed-but-ignored local state.
+.claude/*
+!.claude/skills/
+!.claude/commands/
+.claude/settings.local.json
+
+# Codex / OpenCode — equivalent harness surfaces. Same ignore-by-default +
+# explicit allowlist for skills/ and commands/.
+.codex/*
+!.codex/skills/
+!.codex/commands/
+.opencode/*
+!.opencode/skills/
+!.opencode/commands/
+
+# OpenSpec / opsx — versioned source of truth for specs and changes:
+!openspec/
+
+# AGENTS.md / CLAUDE.md are committed (identical content); explicit negations
+# protect them in case someone re-adds a wildcard *.md rule by mistake.
+!AGENTS.md
+!CLAUDE.md
 .cursor
 .pytest_cache
 .ruff_cache

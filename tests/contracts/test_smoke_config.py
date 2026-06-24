@@ -37,6 +37,8 @@ def _settings(**overrides):
         "wafer_api_key": "",
         "opencode_api_key": "",
         "zai_api_key": "",
+        "command_code_api_key": "",
+        "command_code_base_url": "https://api.commandcode.ai/provider/v1",
         "gemini_api_key": "",
         "groq_api_key": "",
         "cerebras_api_key": "",
