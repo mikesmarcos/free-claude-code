@@ -701,6 +701,19 @@ FIELDS: tuple[ConfigFieldSpec, ...] = (
         advanced=True,
     ),
     ConfigFieldSpec(
+        "ALLOW_ADMIN_FROM",
+        "Admin Allow List",
+        "runtime",
+        settings_attr="allow_admin_from",
+        default="127.0.0.1",
+        restart_required=True,
+        description=(
+            "Comma-separated source IPs or CIDRs allowed to reach /admin. "
+            "Blank = loopback-only (127.0.0.0/8 + ::1). "
+            "WARNING: * or 0.0.0.0/0 opens admin to any reachable client."
+        ),
+    ),
+    ConfigFieldSpec(
         "ENABLE_WEB_SERVER_TOOLS",
         "Web Server Tools",
         "web_tools",
