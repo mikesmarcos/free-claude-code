@@ -154,6 +154,10 @@ async def admin_status(request: Request):
         "pending_fields": getattr(request.app.state, "admin_pending_fields", []),
         "provider_status": provider_config_status(),
         "cached_models": cached_models,
+        "allow_admin_from": settings.allow_admin_from,
+        "allow_admin_from_networks": [
+            str(net) for net in sorted(settings.allow_admin_from_networks(), key=str)
+        ],
     }
 
 
