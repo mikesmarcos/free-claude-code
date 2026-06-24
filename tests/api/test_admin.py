@@ -43,6 +43,7 @@ def _clear_process_config(monkeypatch) -> None:
 
 def test_admin_page_is_loopback_only(monkeypatch, tmp_path):
     _set_home(monkeypatch, tmp_path)
+    _clear_process_config(monkeypatch)
     app = create_app(lifespan_enabled=False)
 
     assert _local_client(app).get("/admin").status_code == 200
