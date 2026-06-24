@@ -4,7 +4,7 @@
 
 Define how the agent must treat an optional external memory provider in the session — detection by interface, reachability probe, consult cadence, record cadence, conflict resolution, and the repo-wins invariant. The directive is a no-op when no such provider is reachable, and is harness-agnostic: it applies to any MCP server, plugin, env-var-configured service, CLI entry point, or hook script the harness exposes, without naming any specific product.
 
-## Requirements
+## ADDED Requirements
 
 ### Requirement: The directive is opt-in by reachability
 
