@@ -1,6 +1,6 @@
 # AGENTIC DIRECTIVE
 
-> This file is identical to AGENTS.md. Keep them in sync.
+> This file is identical to CLAUDE.md. Keep them in sync.
 
 ## CODING ENVIRONMENT
 
@@ -119,3 +119,30 @@ guard-rail that enforces this contract.
 ## TOOLS
 
 - Prefer built-in tools (grep, read_file, etc.) over manual workflows. Check tool availability before use.
+
+## EXTERNAL MEMORY (PERSISTENT CROSS-SESSION) — OPTIONAL
+
+> If an **external memory provider** is available in this session — exposed as MCP tools (any prefix, e.g. `mcp__retaindb__*`, `mcp__memory__*`), a registered plugin, environment variables (e.g. `RETAINDB_*`), a CLI, a hook script, or any other harness-specific mechanism — follow the rules below. Each harness (opencode, Claude Code, Hermes, etc.) surfaces the same provider differently: detect the available interface and adapt. If no such provider is reachable, **ignore this entire section** — it must not block, error, or be referenced.
+
+**Detection.** Before relying on the external store, verify it is actually reachable, not merely registered. Concrete signals by harness:
+
+- **MCP tools present** (e.g. `mcp__retaindb__*`): also confirm a local server responds — e.g. `curl -fsS ${RETAINDB_BASE_URL:-http://localhost:3111}/health` returns `status: ok` for RetainDB, or the equivalent health endpoint advertised by whatever provider is wired in.
+- **Plugin only** (no MCP): call the plugin's documented entry point once and confirm a non-error response.
+- **Env vars only**: the provider may be reachable via direct HTTP — probe its base URL.
+- **CLI / hook script only**: invoke with `--help` or a no-op and confirm exit code 0.
+
+If the probe fails, fall back to project-local memory only and skip the steps below. Never assume "the tool is listed, so it works."
+
+**When to consult.** At the start of any non-trivial task (new feature, refactor, bug investigation spanning more than one file), query the provider for prior context. Preferred call shapes, in order of richness:
+
+1. `context_pack` / `context_query` — returns structured `entries` (memory + code_map + delta) with token budgets.
+2. `memory_search` / `memory_query` — flat recall of relevant memories.
+3. Plugin/CLI equivalent exposed by the provider.
+
+Skim the returned entries for prior decisions, conventions, or gotchas relevant to the current work. Cite them only when they change the plan — do not dump them into the answer.
+
+**When to record.** After a task that produces a non-obvious decision, a workaround, a recurring failure mode, or a new convention, persist a concise summary (≤ 200 tokens) to the provider, tagged with a clear `memory_type` (`decision`, `convention`, `gotcha`, `fact`) and the project slug the harness is configured for. Do not store raw tool output, secrets, or anything already captured in this repo's docs (`AGENTS.md` / `CLAUDE.md` / `README.md`) — those are the source of truth, not the external store.
+
+**Conflict resolution.** If an external memory contradicts a file in the repo, **the repo wins**. Note the contradiction in the response and (optionally) flag the stale memory for the user to decide whether to overwrite or delete it. Do not silently mutate stored memories to match the repo.
+
+**Scope.** Treat the external store as a cross-session hint layer, not a primary source. Project-local directives in this file (AGENTS.md / CLAUDE.md) and the codebase itself always take precedence. Project-local memory and the external store complement each other: local files pin conventions for the repo, the external store carries learned context across sessions and machines.
