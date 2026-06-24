@@ -1,5 +1,6 @@
 """Centralized configuration using Pydantic Settings."""
 
+import ipaddress
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -295,13 +296,17 @@ class Settings(BaseSettings):
     )
 
     # ==================== Server ====================
-    host: str = "0.0.0.0"
-    port: int = 8082
+    host: str = Field(default="0.0.0.0", validation_alias="HOST")
+    port: int = Field(default=8082, validation_alias="PORT")
     # Optional server API key to protect endpoints (Anthropic-style)
     # Set via env `ANTHROPIC_AUTH_TOKEN`. When empty, no auth is required.
     anthropic_auth_token: str = Field(
         default="", validation_alias="ANTHROPIC_AUTH_TOKEN"
     )
+    # Comma-separated list of source IPs or CIDR blocks allowed to reach /admin.
+    # Blank defaults to loopback-only (127.0.0.0/8 and ::1).
+    # Set to * or 0.0.0.0/0 to allow any source (security warning).
+    allow_admin_from: str = Field(default="", validation_alias="ALLOW_ADMIN_FROM")
 
     # Handle empty strings for optional string fields
     @field_validator(
@@ -402,6 +407,29 @@ class Settings(BaseSettings):
                 "messages, e.g. http://localhost:11434 (without /v1)."
             )
         return v
+
+    @field_validator("allow_admin_from", mode="before")
+    @classmethod
+    def validate_allow_admin_from(cls, v: Any) -> str:
+        if v is None or (isinstance(v, str) and not v.strip()):
+            return ""
+        entries = [e.strip() for e in str(v).split(",")]
+        normalized: list[str] = []
+        for entry in entries:
+            if not entry:
+                continue
+            if entry in ("*", "0.0.0.0", "::"):
+                normalized.append(entry)
+                continue
+            try:
+                ipaddress.ip_network(entry, strict=False)
+            except ValueError:
+                raise ValueError(
+                    f"Invalid ALLOW_ADMIN_FROM entry: {entry!r}. "
+                    f"Must be an IP address, CIDR block, or the wildcards *, 0.0.0.0, ::."
+                ) from None
+            normalized.append(entry)
+        return ", ".join(normalized)
 
     @field_validator("model", "model_opus", "model_sonnet", "model_haiku")
     @classmethod
@@ -514,6 +542,38 @@ class Settings(BaseSettings):
             for part in self.web_fetch_allowed_schemes.split(",")
             if part.strip()
         )
+
+    def allow_admin_from_networks(
+        self,
+    ) -> frozenset[ipaddress.IPv4Network | ipaddress.IPv6Network]:
+        """Return parsed source networks allowed to reach /admin.
+
+        Loopback (``127.0.0.0/8`` + ``::1/128``) when unset; ``*`` / ``0.0.0.0`` /
+        ``::`` normalize to ``0.0.0.0/0`` + ``::/0``.
+        """
+        value = self.allow_admin_from.strip()
+        if not value:
+            return frozenset(
+                {
+                    ipaddress.IPv4Network("127.0.0.0/8"),
+                    ipaddress.IPv6Network("::1/128"),
+                }
+            )
+        networks: set[ipaddress.IPv4Network | ipaddress.IPv6Network] = set()
+        for entry in (e.strip() for e in value.split(",")):
+            if not entry:
+                continue
+            if entry in ("*", "0.0.0.0"):
+                networks.add(ipaddress.IPv4Network("0.0.0.0/0"))
+                networks.add(ipaddress.IPv6Network("::/0"))
+                continue
+            if entry == "::":
+                networks.add(ipaddress.IPv6Network("::/0"))
+                continue
+            net = ipaddress.ip_network(entry, strict=False)
+            if isinstance(net, (ipaddress.IPv4Network, ipaddress.IPv6Network)):
+                networks.add(net)
+        return frozenset(networks)
 
     @staticmethod
     def parse_provider_type(model_string: str) -> str:
