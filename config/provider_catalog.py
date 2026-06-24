@@ -36,6 +36,9 @@ ZAI_DEFAULT_BASE = "https://api.z.ai/api/anthropic/v1"
 GEMINI_DEFAULT_BASE = "https://generativelanguage.googleapis.com/v1beta/openai/"
 GROQ_DEFAULT_BASE = "https://api.groq.com/openai/v1"
 CEREBRAS_DEFAULT_BASE = "https://api.cerebras.ai/v1"
+# Command Code AI provider (unified Anthropic Messages + OpenAI Chat Completions under one API key).
+# See https://commandcode.ai/docs/provider
+COMMAND_CODE_DEFAULT_BASE = "https://api.commandcode.ai/provider/v1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -211,6 +214,24 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
             "thinking",
             "native_anthropic",
             "rate_limit",
+        ),
+    ),
+    "command_code_ai": ProviderDescriptor(
+        provider_id="command_code_ai",
+        transport_type="anthropic_messages",
+        credential_env="COMMAND_CODE_API_KEY",
+        credential_url="https://commandcode.ai/keys",
+        credential_attr="command_code_api_key",
+        default_base_url=COMMAND_CODE_DEFAULT_BASE,
+        base_url_attr="command_code_base_url",
+        proxy_attr="command_code_proxy",
+        capabilities=(
+            "chat",
+            "streaming",
+            "tools",
+            "thinking",
+            "rate_limit",
+            "dual_transport",
         ),
     ),
     "lmstudio": ProviderDescriptor(

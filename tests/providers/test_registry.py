@@ -9,6 +9,7 @@ from config.provider_catalog import PROVIDER_CATALOG, ZAI_DEFAULT_BASE
 from config.provider_ids import SUPPORTED_PROVIDER_IDS
 from providers.cerebras import CerebrasProvider
 from providers.codestral import CodestralProvider
+from providers.command_code_ai import CommandCodeAIProvider
 from providers.deepseek import DeepSeekProvider
 from providers.exceptions import UnknownProviderTypeError
 from providers.fireworks import FireworksProvider
@@ -44,6 +45,8 @@ def _make_settings(**overrides):
     mock.wafer_api_key = "test_wafer_key"
     mock.opencode_api_key = "test_opencode_key"
     mock.zai_api_key = "test_zai_key"
+    mock.command_code_api_key = "test_command_code_key"
+    mock.command_code_base_url = "https://api.commandcode.ai/provider/v1"
     mock.lm_studio_base_url = "http://localhost:1234/v1"
     mock.llamacpp_base_url = "http://localhost:8080/v1"
     mock.ollama_base_url = "http://localhost:11434"
@@ -59,6 +62,7 @@ def _make_settings(**overrides):
     mock.opencode_proxy = ""
     mock.opencode_go_proxy = ""
     mock.zai_proxy = ""
+    mock.command_code_proxy = ""
     mock.fireworks_proxy = ""
     mock.fireworks_api_key = "test_fireworks_key"
     mock.gemini_api_key = ""
@@ -185,6 +189,7 @@ def test_create_provider_instantiates_each_builtin():
         "opencode": OpenCodeProvider,
         "opencode_go": OpenCodeProvider,
         "zai": ZaiProvider,
+        "command_code_ai": CommandCodeAIProvider,
         "gemini": GeminiProvider,
         "groq": GroqProvider,
         "cerebras": CerebrasProvider,

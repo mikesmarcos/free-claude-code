@@ -88,6 +88,29 @@ When unsure between PATCH and MINOR, prefer PATCH for fixes and MINOR for new ca
 
 Example commit on `main` after a packaging fix: bump `1.2.38` → `1.2.39`, run `uv lock`, commit together with the fix.
 
+## Repository conventions
+
+- The harness Claude Code is committed at `.claude/skills/` and
+  `.claude/commands/`. The `.claude/*` rule in `.gitignore` only matches
+  state files like `.claude/settings.local.json`. Do not change the
+  matching/negation order without also updating the matching rules in
+  `tests/repo/test_gitignore_preserves_harness_and_opsx.py`.
+- `.codex/` and `.opencode/` are equivalent harness surfaces and follow
+  the same rule (force-include `skills/` and `commands/`).
+- The OpenSpec folder (`openspec/`) is the source of truth for specs and
+  changes. The top-level `!openspec/` negation in `.gitignore` keeps it
+  versioned.
+- The smoke harness lives at `smoke/lib/`. The legacy `lib/` rule in
+  `.gitignore` does not apply to it; this is enforced by the
+  `!smoke/lib/` negation.
+- `AGENTS.md` and `CLAUDE.md` are committed (identical content); the
+  `!AGENTS.md` / `!CLAUDE.md` negations protect them in `.gitignore`.
+- Local-only state (NOT committed): `.claude/settings.local.json`,
+  `.smoke-results/`, `.env`, `**/*.logs`. These are ignored on purpose.
+
+See `tests/repo/test_gitignore_preserves_harness_and_opsx.py` for the
+guard-rail that enforces this contract.
+
 ## SUMMARY STANDARDS
 
 - Summaries must be technical and granular.
