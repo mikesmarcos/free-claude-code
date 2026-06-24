@@ -5,8 +5,8 @@ from __future__ import annotations
 from collections.abc import AsyncIterator
 from typing import Any
 
-from providers.defaults import COMMAND_CODE_DEFAULT_BASE
 from providers.base import BaseProvider, ProviderConfig
+from providers.defaults import COMMAND_CODE_DEFAULT_BASE
 from providers.model_listing import ProviderModelInfo
 from providers.transports.anthropic_messages import AnthropicMessagesTransport
 from providers.transports.openai_chat import OpenAIChatTransport
