@@ -41,10 +41,10 @@
 
 ## 5. Admin config fields
 
-- [ ] 5.1 In `api/admin_config.py`, add the `COMMAND_CODE_API_KEY` `ConfigFieldSpec` (`providers`, `secret`, `secret=True`) and `COMMAND_CODE_BASE_URL` (`providers`, `default=COMMAND_CODE_DEFAULT_BASE`) in the providers section.
-- [ ] 5.2 Add `COMMAND_CODE_PROXY` (`providers`, `secret`, `secret=True`, `advanced=True`) in the proxies section.
-- [ ] 5.3 Add `FCC_SMOKE_MODEL_COMMAND_CODE_AI` (`smoke`, `advanced=True`) in the smoke section.
-- [ ] 5.4 Commit: `feat(admin): expose Command Code AI fields in the admin config manifest`.
+- [x] 5.1 In `api/admin_config.py`, add the `COMMAND_CODE_API_KEY` `ConfigFieldSpec` (`providers`, `secret`, `secret=True`) and `COMMAND_CODE_BASE_URL` (`providers`, `default=COMMAND_CODE_DEFAULT_BASE`) in the providers section.
+- [x] 5.2 Add `COMMAND_CODE_PROXY` (`providers`, `secret`, `secret=True`, `advanced=True`) in the proxies section.
+- [x] 5.3 Add `FCC_SMOKE_MODEL_COMMAND_CODE_AI` (`smoke`, `advanced=True`) in the smoke section.
+- [x] 5.4 Commit: `feat(admin): expose Command Code AI fields in the admin config manifest`.
 
 ## 6. .env.example
 

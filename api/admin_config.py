@@ -203,6 +203,26 @@ FIELDS: tuple[ConfigFieldSpec, ...] = (
         description="Z.ai Coding Plan API key.",
     ),
     ConfigFieldSpec(
+        "COMMAND_CODE_API_KEY",
+        "Command Code AI API Key",
+        "providers",
+        "secret",
+        settings_attr="command_code_api_key",
+        secret=True,
+        description=(
+            "Command Code AI provider key (commandcode.ai/docs/provider). "
+            "Same key authenticates both /v1/messages and /v1/chat/completions."
+        ),
+    ),
+    ConfigFieldSpec(
+        "COMMAND_CODE_BASE_URL",
+        "Command Code AI Base URL",
+        "providers",
+        settings_attr="command_code_base_url",
+        default="https://api.commandcode.ai/provider/v1",
+        description="Override the default Command Code AI base URL. Leave blank for default.",
+    ),
+    ConfigFieldSpec(
         "FIREWORKS_API_KEY",
         "Fireworks API Key",
         "providers",
@@ -368,6 +388,15 @@ FIELDS: tuple[ConfigFieldSpec, ...] = (
         "providers",
         "secret",
         settings_attr="zai_proxy",
+        secret=True,
+        advanced=True,
+    ),
+    ConfigFieldSpec(
+        "COMMAND_CODE_PROXY",
+        "Command Code AI Proxy",
+        "providers",
+        "secret",
+        settings_attr="command_code_proxy",
         secret=True,
         advanced=True,
     ),
@@ -885,6 +914,16 @@ FIELDS: tuple[ConfigFieldSpec, ...] = (
         "Smoke Z.ai Model",
         "smoke",
         advanced=True,
+    ),
+    ConfigFieldSpec(
+        "FCC_SMOKE_MODEL_COMMAND_CODE_AI",
+        "Smoke Command Code AI Model",
+        "smoke",
+        advanced=True,
+        description=(
+            "Optional model override for the live smoke-test target. "
+            "Format: command_code_ai/<model>."
+        ),
     ),
     ConfigFieldSpec(
         "FCC_SMOKE_MODEL_FIREWORKS",
