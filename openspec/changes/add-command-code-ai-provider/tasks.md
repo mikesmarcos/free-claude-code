@@ -62,10 +62,10 @@
 
 ## 8. Install scripts — local source flag
 
-- [ ] 8.1 In `scripts/install.sh`, add `--from <path>` and `--from=<path>` parsing; when present, set the spec to the literal path (no `git+` prefix) and call `uv tool install --from "$spec" --force ...`; when absent, preserve the existing `REPO_GIT_URL` behavior.
-- [ ] 8.2 In `scripts/install.ps1`, add the equivalent `-From <path>` / `-From=<path>` parsing.
-- [ ] 8.3 Confirm `scripts/uninstall.sh` and `scripts/uninstall.ps1` are unchanged (source-agnostic).
-- [ ] 8.4 Commit: `feat(install): add --from/-From flag to install from a local repo path`.
+- [x] 8.1 In `scripts/install.sh`, add `--from <path>` and `--from=<path>` parsing; when present, set the spec to the literal path (no `git+` prefix) and call `uv tool install --from "$spec" --force ...`; when absent, preserve the existing `REPO_GIT_URL` behavior.
+- [x] 8.2 In `scripts/install.ps1`, add the equivalent `-From <path>` / `-From=<path>` parsing.
+- [x] 8.3 Confirm `scripts/uninstall.sh` and `scripts/uninstall.ps1` are unchanged (source-agnostic).
+- [x] 8.4 Commit: `feat(install): add --from/-From flag to install from a local repo path`.
 
 ## 9. README
 
