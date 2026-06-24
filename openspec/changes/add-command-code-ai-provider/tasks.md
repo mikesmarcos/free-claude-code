@@ -69,9 +69,9 @@
 
 ## 9. README
 
-- [ ] 9.1 In `README.md`, update the "What You Get" provider count `17` → `18` and insert `Command Code AI` in the backend list (after Z.ai).
-- [ ] 9.2 Add the dual-transport bullet (`Command Code AI dual transport: one COMMAND_CODE_API_KEY serves both /v1/messages for Claude-* and /v1/chat/completions for every other family`).
-- [ ] 9.3 Commit: `docs(readme): list Command Code AI among supported providers`.
+- [x] 9.1 In `README.md`, update the "What You Get" provider count `17` → `18` and insert `Command Code AI` in the backend list (after Z.ai).
+- [x] 9.2 Add the dual-transport bullet (`Command Code AI dual transport: one COMMAND_CODE_API_KEY serves both /v1/messages for Claude-* and /v1/chat/completions for every other family`).
+- [x] 9.3 Commit: `docs(readme): list Command Code AI among supported providers`.
 
 ## 10. Tests
 
