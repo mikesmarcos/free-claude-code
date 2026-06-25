@@ -20,11 +20,11 @@ def test_readme_uninstall_one_liners_use_raw_github_urls() -> None:
 
     assert (
         'curl -fsSL "https://raw.githubusercontent.com/'
-        'Alishahryar1/free-claude-code/main/scripts/uninstall.sh" | sh'
+        'mikesmarcos/free-claude-code/main/scripts/uninstall.sh" | sh'
     ) in text
     assert (
         'irm "https://raw.githubusercontent.com/'
-        'Alishahryar1/free-claude-code/main/scripts/uninstall.ps1" | iex'
+        'mikesmarcos/free-claude-code/main/scripts/uninstall.ps1" | iex'
     ) in text
     assert "blob/main/scripts/uninstall.sh?raw=1" not in text
     assert "blob/main/scripts/uninstall.ps1?raw=1" not in text
@@ -188,6 +188,9 @@ def test_uninstall_ps1_missing_tool_detection_is_narrow() -> None:
     assert "locked" not in detector_body
 
 
+# TODO(test-isolation): see openspec/changes/fix-flaky-and-environment-dependent-tests
+# Fails locally when fcc-server is running: scripts/uninstall.sh's process check
+# bails out before the test's mocked uv-failure branch is reached. Fix: hermetic container.
 def test_uninstall_sh_generic_uv_failure_does_not_delete_fcc_home(
     tmp_path: Path,
 ) -> None:
@@ -224,6 +227,9 @@ def test_uninstall_sh_generic_uv_failure_does_not_delete_fcc_home(
     assert "before deleting ~/.fcc" in result.stderr
 
 
+# TODO(test-isolation): see openspec/changes/fix-flaky-and-environment-dependent-tests
+# Fails locally when fcc-server is running: scripts/uninstall.sh's process check
+# fires before the test's mocked "tool missing" branch. Fix: hermetic container.
 def test_uninstall_sh_missing_tool_still_deletes_fcc_home(tmp_path: Path) -> None:
     sh = shutil.which("sh")
     if sh is None:
@@ -256,6 +262,9 @@ def test_uninstall_sh_missing_tool_still_deletes_fcc_home(tmp_path: Path) -> Non
     assert not fcc_home.exists()
 
 
+# TODO(test-isolation): see openspec/changes/fix-flaky-and-environment-dependent-tests
+# Fails locally when fcc-server is running: scripts/uninstall.sh's process check
+# fires before the test's "missing uv" branch. Fix: hermetic container.
 def test_uninstall_sh_missing_uv_still_deletes_fcc_home(tmp_path: Path) -> None:
     sh = shutil.which("sh")
     if sh is None:

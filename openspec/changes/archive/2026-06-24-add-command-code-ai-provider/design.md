@@ -6,7 +6,7 @@ Command Code AI does not fit that single-transport model: it publishes **two** e
 
 Persistence is already consolidated: everything the Admin UI writes goes to `~/.fcc/.env` (managed env) via `api/admin_config.py::write_managed_env`, with `Settings` (Pydantic) as the schema. New fields are additions to `BaseSettings`, the admin `FIELDS` tuple, and `.env.example`. The install scripts fix `REPO_GIT_URL` as the single source (`uv tool install --force "$REPO_GIT_URL"`), which blocks local-checkout iteration; the `--from` flag adds a local-install path alongside it.
 
-This change assumes Change 2 (`add-admin-access-controls`) has landed, so the admin config field pipeline and the `runtime` / `providers` / `smoke` sections already exist as targets for the new `ConfigFieldSpec` rows. It also assumes the leading URL-repoint chore set `REPO_GIT_URL` to the Codeberg origin.
+This change assumes Change 2 (`add-admin-access-controls`) has landed, so the admin config field pipeline and the `runtime` / `providers` / `smoke` sections already exist as targets for the new `ConfigFieldSpec` rows.
 
 ## Goals / Non-Goals
 
@@ -25,7 +25,6 @@ This change assumes Change 2 (`add-admin-access-controls`) has landed, so the ad
 - No automatic fallback between Command Code and other providers (that stays a `MODEL_*` decision).
 - No caching, queuing, batching, or new HTTP dependencies.
 - No changes to existing transports or the OpenAI Responses ↔ Chat Completions conversion in `core/openai_responses/`.
-- No change to the `REPO_GIT_URL` value itself (the leading chore owns the Codeberg repoint).
 
 ## Decisions
 

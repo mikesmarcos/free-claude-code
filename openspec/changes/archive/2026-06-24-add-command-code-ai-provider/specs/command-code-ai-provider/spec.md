@@ -106,7 +106,7 @@ The system MUST accept `COMMAND_CODE_API_KEY` (required for the provider to func
 
 #### Scenario: Install from the canonical origin still works
 - **WHEN** `curl ... | sh` is run with no arguments
-- **THEN** the package is installed from `git+https://codeberg.org/mikek8s/free-claude-code.git` (current behavior preserved)
+- **THEN** the package is installed from `git+https://github.com/mikesmarcos/free-claude-code.git` (current behavior preserved)
 
 #### Scenario: Install from a local repo
 - **WHEN** `./scripts/install.sh --from /path/to/free-claude-code` is run in a local checkout
