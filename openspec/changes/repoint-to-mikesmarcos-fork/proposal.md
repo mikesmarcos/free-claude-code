@@ -15,7 +15,7 @@ The goal is to make every URL in the repo point at the GitHub fork this project 
 - **Repoint 2 spec mentions of `git+https://codeberg.org/mikek8s/free-claude-code.git`** in `openspec/specs/command-code-ai-provider/spec.md` (line 112) and the archived change copy (line 109) to the GitHub fork.
 - **Reword 5 archive-document references to the Codeberg `REPO_GIT_URL` and "leading URL-repoint chore"** in `openspec/changes/archive/2026-06-24-add-command-code-ai-provider/{proposal,design,tasks}.md` so the historical record no longer implies a Codeberg prerequisite. The repoint itself is now this change, so the "leading chore" framing is gone.
 - **Delete `.forgejo/CODEOWNERS`** and the now-empty `.forgejo/` directory. The matching `.github/CODEOWNERS` (pointing at `@mikesmarcos`) is the only code-owners file that remains.
-- **Bump version `1.2.40` → `1.2.41` (PATCH)** in `pyproject.toml` and run `uv lock` so the lockfile matches. This touches `scripts/install.sh`, `scripts/install.ps1`, and `pyproject.toml` — all production files per the project rules in `CLAUDE.md`.
+- **Bump version `2.5.0` → `2.5.1` (PATCH)** in `pyproject.toml` and run `uv lock` so the lockfile matches. This touches `scripts/install.sh`, `scripts/install.ps1`, and `pyproject.toml` — all production files per the project rules in `CLAUDE.md`.
 - **No code, env, or capability changes** — every requirement, scenario, and test in the existing specs keeps the same normative meaning; only URLs and the version constant move.
 
 ## Capabilities
@@ -31,7 +31,7 @@ The goal is to make every URL in the repo point at the GitHub fork this project 
 ## Impact
 
 - `scripts/install.sh`, `scripts/install.ps1` — production (`CLAUDE.md` production list); one-line change each. **Version bump required.**
-- `pyproject.toml` — production; `1.2.40` → `1.2.41`. Run `uv lock` after.
+- `pyproject.toml` — production; `2.5.0` → `2.5.1`. Run `uv lock` after.
 - `README.md` — docs (non-production per `CLAUDE.md`); 22 URL replacements, no semantic change.
 - `tests/scripts/test_uninstallers.py` — tests (non-production); 2 URL replacements in fixture strings.
 - `openspec/specs/command-code-ai-provider/spec.md` — spec (non-production); 1 URL replacement in the install-source Scenario.

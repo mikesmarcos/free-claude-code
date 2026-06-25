@@ -1,7 +1,7 @@
 ## 0. Conventions for this change
 
 - **Atomic commits**: each numbered group below is **one commit**. Commit messages follow the repo convention (see `CLAUDE.md`); end with the `Co-Authored-By: opencode` trailer.
-- **Version bump required**: this change touches `scripts/install.sh`, `scripts/install.ps1`, and `pyproject.toml` — all production files per `CLAUDE.md`. Bump `1.2.40` → `1.2.41` (PATCH) in the same commit that updates `pyproject.toml`, and run `uv lock` so the lockfile matches.
+- **Version bump required**: this change touches `scripts/install.sh`, `scripts/install.ps1`, and `pyproject.toml` — all production files per `CLAUDE.md`. Bump `2.5.0` → `2.5.1` (PATCH) in the same commit that updates `pyproject.toml`, and run `uv lock` so the lockfile matches.
 - **No code edits beyond the URL swaps and version bump** — do not refactor `install.sh` / `install.ps1` body, do not change `tests/scripts/test_uninstallers.py` semantics, do not rewrite `README.md` prose.
 
 ## 1. Add the OpenSpec change skeleton
@@ -41,9 +41,9 @@
 
 ## 6. Version bump and lockfile
 
-- [x] 6.1 In `pyproject.toml`, bump `version = "1.2.40"` to `version = "1.2.41"`. Do not touch any other line.
+- [x] 6.1 In `pyproject.toml`, bump `version = "2.5.0"` to `version = "2.5.1"`. Do not touch any other line.
 - [x] 6.2 Run `uv lock` to refresh `uv.lock` so it reflects the new package version. The lockfile should be the only other file changed.
-- [x] 6.3 Commit: `chore(release): bump 1.2.40 → 1.2.41 (repoint to mikesmarcos fork)`.
+- [x] 6.3 Commit: `chore(release): bump 2.5.0 → 2.5.1 (repoint to mikesmarcos fork)`.
 
 ## 7. Validate, run CI, and archive
 
