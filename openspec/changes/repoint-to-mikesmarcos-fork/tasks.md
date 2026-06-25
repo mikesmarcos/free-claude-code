@@ -6,11 +6,8 @@
 
 ## 1. Add the OpenSpec change skeleton
 
-- [x] 1.1 Create `openspec/changes/repoint-to-mikesmarcos-fork/` with `proposal.md` (already in working tree) and an empty `specs/install-url/` directory.
-- [x] 1.2 Create `openspec/changes/repoint-to-mikesmarcos-fork/design.md` (≤ 60 lines) covering: why a single spec capability suffices, why the archived change prose is updated (historical-accuracy, not rewrite), and the install-script URL behavior is unchanged for the user.
-- [x] 1.3 Create `openspec/changes/repoint-to-mikesmarcos-fork/tasks.md` (this file).
-- [x] 1.4 Create `openspec/changes/repoint-to-mikesmarcos-fork/specs/install-url/spec.md` with `## ADDED Requirements` covering: `REPO_GIT_URL` value, README badge/snippet URL, and the guard test.
-- [x] 1.5 Commit: `docs(opsx): add repoint-to-mikesmarcos-fork change skeleton`.
+- [x] 1.1 Create `openspec/changes/repoint-to-mikesmarcos-fork/` with `proposal.md` (already in working tree), `design.md` (≤ 60 lines, already in working tree), `tasks.md` (this file), and `specs/install-url/spec.md` (with `## ADDED Requirements` covering `REPO_GIT_URL`, README URLs, and the uninstaller fixture test).
+- [x] 1.2 Commit: `docs(opsx): add repoint-to-mikesmarcos-fork change skeleton`.
 
 ## 2. Repoint `REPO_GIT_URL` in install scripts
 

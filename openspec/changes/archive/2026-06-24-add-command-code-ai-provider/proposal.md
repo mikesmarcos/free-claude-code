@@ -4,7 +4,7 @@ The `fcc-server` does not yet expose the **Command Code AI** provider (`https://
 
 The provider's documented contract ([commandcode.ai/docs/provider](https://commandcode.ai/docs/provider)) is unusual: a single `Bearer` API key authenticates **two** endpoints — `POST /v1/messages` (Anthropic Messages) and `POST /v1/chat/completions` (OpenAI Chat Completions) — with routing by model family (Claude-* → `/v1/messages`; every other family → `/v1/chat/completions`). Sending Claude to `/chat/completions` or an open-model to `/messages` returns `400 invalid_request_error`. No existing catalog provider exposes the Claude+open-model set on one account, so this requires a **dual-transport** provider — a new pattern — without breaking the registry invariant (`PROVIDER_CATALOG == PROVIDER_FACTORIES == SUPPORTED_PROVIDER_IDS`). The install scripts also need a `--from <path>` flag so local checkouts can be installed for development iteration alongside the canonical Codeberg origin.
 
-This change ports the proven `add-command-code-ai-provider` work from the migration branch. It assumes the leading URL-repoint chore has already repointed `REPO_GIT_URL` to `git+https://codeberg.org/mikek8s/free-claude-code.git`, and that Change 2 (`add-admin-access-controls`) has landed, providing the admin config field pipeline this provider reuses.
+This change ports the proven `add-command-code-ai-provider` work from the migration branch. It assumes that Change 2 (`add-admin-access-controls`) has landed, providing the admin config field pipeline this provider reuses.
 
 ## What Changes
 

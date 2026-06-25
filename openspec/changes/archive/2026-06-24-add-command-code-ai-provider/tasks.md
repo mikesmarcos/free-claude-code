@@ -1,7 +1,7 @@
 ## 0. Conventions for this change
 
 - **Source of the port**: `origin/migration-from-github` (final, tested state).
-- **Prerequisites already landed**: the leading URL-repoint chore (`REPO_GIT_URL` → Codeberg) and Change 2 (`add-admin-access-controls`, which provides the admin config field pipeline and the `runtime`/`providers`/`smoke` sections).
+- **Prerequisites already landed**: Change 2 (`add-admin-access-controls`, which provides the admin config field pipeline and the `runtime`/`providers`/`smoke` sections).
 - **Shared files**: `config/settings.py`, `api/admin_config.py`, `.env.example`, `tests/api/test_admin.py`, and `scripts/install.sh` / `install.ps1` were partly edited by earlier changes. In this change, edit **only the command-code-ai hunks**:
   - `settings.py`: add the `COMMAND_CODE_DEFAULT_BASE` import and the `command_code_*` fields. Do **not** touch `host`/`port`/`allow_admin_from` (Change 2).
   - `admin_config.py`: add the four `COMMAND_CODE_*` / `FCC_SMOKE_MODEL_COMMAND_CODE_AI` rows. Do **not** touch `ALLOW_ADMIN_FROM` (Change 2).
