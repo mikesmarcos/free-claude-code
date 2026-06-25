@@ -44,6 +44,9 @@ def _clear_process_config(monkeypatch) -> None:
         monkeypatch.delenv(key, raising=False)
 
 
+# TODO(test-isolation): see openspec/changes/fix-flaky-and-environment-dependent-tests
+# Fails locally when fcc-server is alive (loopback check races with a live request);
+# passes on CI only because the runner has no fcc-server. Fix: hermetic container.
 def test_admin_page_is_loopback_only(monkeypatch, tmp_path):
     _set_home(monkeypatch, tmp_path)
     _clear_process_config(monkeypatch)
